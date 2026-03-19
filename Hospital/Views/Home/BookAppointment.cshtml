@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Doctor>
+
+<h1>Book Appointment</h1>
+<form>
+    <div class="d-flex align-items-center gap-2">
+
+        <input type="text"
+               class="form-control"
+               placeholder="Search..."
+               style="border-radius: 20px; padding: 10px;" name="query" />
+               
+        <button type="submit"
+                class="btn btn-dark"
+                style="border-radius: 20px; padding: 8px 20px;">
+            Search
+        </button>
+
+    </div>
+</form>
+
+<div class="row">
+     @foreach(var item in Model){
+      
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img class="card-img" src="~/Images/doctors/@item.Image" style="width: 100%; height: auto;" alt="Doctor Image">
+                <div class="card-body">
+                    <h5 class="card-title">@item.Name </h5>
+                    <p class="card-text">Specialization: @item.Specialization</p>
+                    <a href="/Home/CompleteAppointment/@item.Id" class="btn btn-primary">Book Appointment</a>
+                </div>
+            </div>
+        </div>
+      }
+   
+  </div>

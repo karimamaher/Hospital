@@ -1,0 +1,31 @@
+﻿@{
+    ViewData["Title"] = "Reservations Management";
+}
+
+@model IEnumerable<Appointment>
+
+<h1>Reservations Management</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Doctor Name</th>
+            <th>Patient Name</th>
+            <th>Appointment Date</th>
+            <th>Appointment Time</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>@item.Doctor.Name</td>
+                <td>@item.Patient.Name</td>
+                <td>@item.AppointmentDate.ToString("yyyy-mm-dd")</td>
+                <td>@item.AppointmentTime</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
