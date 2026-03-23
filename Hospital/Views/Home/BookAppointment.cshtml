@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Doctor>
+﻿@using Hospital.ViewModels
+@model DoctorVM
 
 <h1>Book Appointment</h1>
 <form>
@@ -6,9 +7,9 @@
 
         <input type="text"
                class="form-control"
-               placeholder="Search..."
-               style="border-radius: 20px; padding: 10px;" name="query" />
-               
+               placeholder="Specialization..."
+               style="border-radius: 20px; padding: 10px;" name="query" value="@ViewBag.Query" />
+
         <button type="submit"
                 class="btn btn-dark"
                 style="border-radius: 20px; padding: 8px 20px;">
@@ -19,8 +20,9 @@
 </form>
 
 <div class="row">
-     @foreach(var item in Model){
-      
+    @foreach (var item in Model.Doctors)
+    {
+
         <div class="col-md-4 mb-4">
             <div class="card">
                 <img class="card-img" src="~/Images/doctors/@item.Image" style="width: 100%; height: auto;" alt="Doctor Image">
@@ -31,6 +33,37 @@
                 </div>
             </div>
         </div>
-      }
-   
-  </div>
+    }
+
+</div>
+
+<div class="row">
+    <div class="col-12 d-flex justify-content-center">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                @if(Model.CurrentPage > 1)
+                {
+                    <li class="page-item"><a class="page-link" href="/Home/BookAppointment?page=@(Model.CurrentPage-1)">Previous</a></li>
+                }
+                
+                @for (var i = 1; i <= Model.TotalPages; i++)
+                {    
+                    @if(i== Model.CurrentPage)
+                    {
+                        <li class="page-item active"><a class="page-link" href="/Home/BookAppointment?page=@i">@i</a></li>
+                    }
+                    else
+                    {
+                        <li class="page-item"><a class="page-link" href="/Home/BookAppointment?page=@i">@i</a></li>
+                    }
+                   
+                }
+                @if (Model.CurrentPage != Model.TotalPages)
+                {
+                    <li class="page-item"><a class="page-link" href="/Home/BookAppointment?page=@(Model.CurrentPage + 1)">Next</a></li>
+                }
+
+            </ul>
+        </nav>
+    </div>
+</div>

@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Hospital.DataAccess;
 using Hospital.Models;
+using Hospital.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -34,15 +35,27 @@ namespace Hospital.Controllers
             return View();
         }
 
-        public IActionResult BookAppointment( string? query= null)
+        public IActionResult BookAppointment(int page= 1, string? query= null)
         {
             var doctors = _context.Doctors.AsQueryable();
-
-            if (query is not null) 
+            //filter
+            if (query is not null)
             {
-                doctors = doctors.Where(e=> e.Specialization.Contains(query.Trim().ToLower()) );
+                doctors = doctors.Where(e => e.Specialization.Contains(query.Trim().ToLower()));
+                ViewBag.Query = query;
             }
-            return View(doctors.AsEnumerable());
+
+            //pagination
+            double totalPages = Math.Ceiling(doctors.Count()/3.0);
+           
+            doctors = doctors.Skip((page-1)*3).Take(3);   
+  
+            return View(new DoctorVM()
+            {
+                Doctors= doctors.AsEnumerable(), 
+                TotalPages=totalPages,
+                CurrentPage= page,
+            });
         }
 
         public IActionResult CompleteAppointment(int id)
